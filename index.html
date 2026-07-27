@@ -537,6 +537,8 @@ function getSortValue(item, col) {
   if (v instanceof Date) return v.getTime();
   if (typeof v === 'number') return v;
   const s = String(v).trim();
+  // non-numeric placeholders (deleted posts show "/", "-", "—") count as 0 for numeric sort
+  if (s === '/' || s === '-' || s === '—' || s === '–' || s === '') return 0;
   // numeric-like strings (e.g. impressions "210") must sort by value, not lexically
   if (/^-?[\d.,]+$/.test(s)) {
     const n = parseFloat(s.replace(/,/g, ''));
